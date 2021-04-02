@@ -16,6 +16,8 @@ func main() {
 	// /users/
 	e.POST("/users", createUser)
 	e.GET("/users/:id", getUserByID)
+	e.PUT("/users/:id", updateUserByID)
+	e.DELETE("/users/:id", deleteUserByID)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
@@ -30,4 +32,12 @@ func createUser(c echo.Context) error {
 func getUserByID(c echo.Context) error {
 	id := c.Param("id")
 	return c.String(http.StatusOK, fmt.Sprintln(id))
+}
+
+func updateUserByID(c echo.Context) error {
+	return nil
+}
+
+func deleteUserByID(c echo.Context) error {
+	return nil
 }
