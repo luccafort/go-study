@@ -5,19 +5,30 @@ import (
 	"net/http"
 )
 
-type MyHandler struct{}
+type HelloHandler struct{}
 
 // https://github.com/golang/go/blob/21a04e33353316635b5f3351e807916f3bb1e844/src/net/http/server.go#L86-L88
 // ↑のコードでinterfaceが定義されている。
-func (h *MyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, world.")
+func (h *HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello!")
+}
+
+type WorldHandler struct{}
+
+func (h *WorldHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "World!")
 }
 
 func main() {
-	handler := MyHandler{}
+	hello := HelloHandler{}
+	world := WorldHandler{}
+
 	server := http.Server{
-		Addr:    "127.0.0.1:8080",
-		Handler: &handler,
+		Addr: "127.0.0.1:8080",
 	}
+
+	http.Handle("/hello", &hello)
+	http.Handle("/world", &world)
+
 	server.ListenAndServe()
 }
